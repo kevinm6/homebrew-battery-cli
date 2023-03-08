@@ -1,55 +1,54 @@
 # Battery charge limiter for Apple Silicon Macbook devices
 
-<img width="300px" align="right" src="./screenshots/tray.png"/>This tool makes it possible to keep a chronically plugged in Apple Silicon Macbook at `80%` battery, since that will prolong the longevity of the battery. It is free and open-source and will remain that way.
+<!--toc:start-->
+- [📃 Description](#description)
+- [⬇️  Installation](#installation)
+  - [🍺 Homebrew](#homebrew)
+  - [📦 Standalone](#standalone)
+- [▶️  Usage](#usage)
+- [❓ FAQ & Troubleshooting](#faq-troubleshooting)
+  - [Why does this exist?](#why-does-this-exist)
+- [🌐  Network](#network)
+- [👥 Contribution](#contribution)
+<!--toc:end-->
 
 
-> Want to know if this tool does anything or is just a placebo? Read [this excellent article](https://batteryuniversity.com/article/bu-808-how-to-prolong-lithium-based-batteries). TL;DR: keep your battery cool, keep it at 80% when plugged in, and discharge it as shallowly as feasible.
+> Fork of the awesome [Battery App](https://github.com/actuallymentor/battery) that offer  also a **GUI** (User Interface).
 
-### Requirements
+## Description
 
-This is an app for Apple Silicon Macs. It will not work on Intel macs. Do you have an older Mac? Consider the free version of the [Al Dente](https://apphousekitchen.com/) software package. It is a good alternative and has a premium version with many more features.
-
-### Installation
-
-- Option 1: install through brew with `brew install battery`
-- Option 2: [You can download the latest app dmg version here]( https://github.com/actuallymentor/battery/releases/ ).
-- Option 3: command-line only installation (see section below)
-
-The first time you open the app, it will ask for your administator password so it can install the needed components. Please note that the app:
-
-- Discharges your battery until it reaches 80%, **even when plugged in**
-- Disables charging when your battery is above 80% charged
-- Enabled charging when your battery is under 80% charged
-- Keeps the limit engaged even after rebooting
-- Keeps the limit engaged even after closing the tray app
-- Also automatically installs the `battery` command line tool. If you want a custom charging percentage, the CLI is the only way to do that.
-
-Do you have questions, comments, or feature requests? [Open an issue here](https://github.com/actuallymentor/battery/issues) or [Tweet at me](https://twitter.com/actuallymentor).
-
----
-
-
-## 🖥 Command-line version
-
-> If you don't know what a "command line" is, ignore this section. You don't need it.
-
-The GUI app uses a command line tool under the hood. Installing the GUI automatically installs the CLI as well. You can also separately install the CLI.
-
-The CLI is used for managing the battery charging status for Apple Silicon Macbooks. Can be used to enable/disable the Macbook from charging the battery when plugged into power.
+The CLI is used for managing the battery charging status for Apple Silicon Macbooks.\
+Can be used to enable/disable the Macbook from charging the battery when plugged into power.
 
 ### Installation
 
-One-line installation:
+#### Homebrew
 
-```bash
-curl -s https://raw.githubusercontent.com/actuallymentor/battery/main/setup.sh | bash
-```
+  ```bash
+  brew install kevinm6/battery-cli/battery-cli
+  ```
+  *or*
+
+  ```bash
+  brew tap kevinm6/battery-cli
+  brew install battery-cli
+  ```
+
+#### Standalone
+
+**One-line** installation:
+
+  ```bash
+  curl -s https://raw.githubusercontent.com/kevinm6/battery-cli/main/setup.sh | bash
+  ```
 
 This will:
 
 1. Download the precompiled `smc` tool in this repo (built from the [hholtmann/smcFanControl]( https://github.com/hholtmann/smcFanControl.git ) repository)
 2. Install `smc` to `/usr/local/bin`
 3. Install `battery` to `/usr/local/bin`
+
+---
 
 ### Usage
 
@@ -72,7 +71,7 @@ After running `battery charging on` you will see it change to this:
 For help, run `battery` without parameters:
 
 ```
-Battery CLI utility v1.0.1
+Battery CLI utility v1.0.2
 
 Usage:
 
@@ -104,6 +103,9 @@ Usage:
     ensure you don't need to call battery with sudo
     This is already used in the setup script, so you should't need it.
 
+The following are only for installation without Homebrew, DON'T USE them if you installed
+battery-cli with homebrew ( brew install battery-cli ):
+
   battery update
     update the battery utility to the latest version
 
@@ -118,37 +120,22 @@ Usage:
 
 ### Why does this exist?
 
-I was looking at the Al Dente software package for battery limiting, but I found the [license too limiting](https://github.com/davidwernhart/AlDente/discussions/558) for a poweruser like myself.
+This is the Fork of awesome [battery](https://github.com/actuallymentor/battery).
+I create this version because I don't like at all Electron and I use it only for scrict
+necessary app. Since the original version use Electron only as wrapper for the cli version,
+I've made the cli only version.
 
-I would actually have preferred using Al Dente, but decided to create a command-line utility to replace it as a side-project on holiday. A colleague mentioned they would like a GUI, so I spend a few evenings setting up an Electron app. And voila, here we are.
+For now it will be only a tap, since from [homebrew docs](https://docs.brew.sh) they probably
+won't accept a cli-only version of a cask.
 
-### "It's not working"
+---
 
-If you used one of the earlier versions of the `battery` utility, you may run into [path/permission issues](https://github.com/actuallymentor/battery/issues/8). This is not your fault but mine. To fix it:
+### Network
 
-```
-sudo rm -rf ~/.battery
-binfolder=/usr/local/bin
-sudo rm -v "$binfolder/smc" "$binfolder/battery"
-```
+A Internet Connection is required to download the version and keep it update
 
-Then reopen the app and things should work. If not, [open an issue](https://github.com/actuallymentor/battery/issues/new/choose) and I'll try to help you fix it.
+### Contribution
 
-### A note to Little Snitch users
+Do you know how to code? Open a pull-request for a feature with the label [help wanted (PR welcome)](https://github.com/kevinm6/battery-cli/labels/help%20wanted%20%28PR%20welcome%29).
 
-This tool calls a number of urls, blocking all of them will only break auto-updates.
-
-1. `unidentifiedanalytics.web.app` is a self-made app that tracks app installations, I use it to see if enough people use the app to justify spending time on it. It tracks only how many unique ip addresses open the app.
-1. `icanhasip.com` is used to see if there is an internet connection
-1. `github.com` is used both as a liveness check and as the source of updates for the underlying command-line utility
-1. `electronjs.org` hosts the update server for the GUI
-
-All urls are called over `https` and so not leak data. Unidentified Analytics keeps track of unique ip addresses that open the app, but nothing else.
-
-### How do I support this project?
-
-Do you know how to code? Open a pull-request for a feature with the label [help wanted (PR welcome)](https://github.com/actuallymentor/battery/labels/help%20wanted%20%28PR%20welcome%29).
-
-Do you have an awesome feature idea? [Add a feature request](https://github.com/actuallymentor/battery/issues/new/choose)
-
-Do you just want to keep me motivated to update the app? [Tweet at me](https://twitter.com/actuallymentor)
+Do you have an awesome feature idea? [Add a feature request](https://github.com/kevinm6/battery-cli/issues/new/choose)
