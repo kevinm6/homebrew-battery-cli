@@ -1,33 +1,13 @@
 class BatteryCli < Formula
   desc "CLI for managing the battery charging status"
-
   homepage "https://github.com/kevinm6/battery-cli"
-  url "https://github.com/kevinm6/battery-cli/archive/refs/tags/v1.0.2.tar.gz"
-  sha256 "184253c85b5bc90e971f98c74db519cf8960307d713ede34b23035757a3e5a9c"
-  # version "v1.0.2"
-  license "MIT"
+  version "1.0.0"
+  url "https://github.com/kevinm6/battery-cli/archive/refs/tags/v#{version}.tar.gz"
+  sha256 "0ea78a9328b93aa938ceee4f3e7cf31ec39e303a3e0f5e608fe0399a95cfc41b"
 
-  head "https://github.com/kevinm6/battery-cli.git", branch: "main"
-
-  conflicts_with cask: "battery", because: "both install binaries that can interfere"
-
-  on_macos do
-    on_arm do
-      url "https://github.com/kevinm6/battery-cli/archive/refs/tags/v1.0.2.tar.gz"
-      sha256 "184253c85b5bc90e971f98c74db519cf8960307d713ede34b23035757a3e5a9c"
-
-      def install
-        bin.install "dist/smc"
-        bin.install "battery-cli" => "battery"
-      end
-      # def install
-      #   system "./setup.sh", *std_configure_args, "--disable-silent-rules"
-      # end
-    end
-  end
-
-  test do
-    system "false"
-    # assert_not_equal  system bin/"battery-cli", ""
+  depends_on arch: :arm
+  def install
+    bin.install "dist/smc"
+    bin.install "battery-cli" => "battery"
   end
 end
