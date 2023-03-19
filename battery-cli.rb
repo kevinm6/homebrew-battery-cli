@@ -1,9 +1,9 @@
 class BatteryCli < Formula
   desc "CLI for managing the battery charging status"
   homepage "https://github.com/kevinm6/battery-cli"
-  version "1.0.0"
+  version "1.0.1"
   url "https://github.com/kevinm6/battery-cli/archive/refs/tags/v#{version}.tar.gz"
-  sha256 "0ea78a9328b93aa938ceee4f3e7cf31ec39e303a3e0f5e608fe0399a95cfc41b"
+  sha256 "a229ae8e930a3671473572f34b980daab74539322d8f94beac740ea7d469a95b"
 
   depends_on arch: :arm
   def install
